@@ -1,0 +1,19 @@
+Revision history for IO-Stream
+
+1.0.1	Tue Nov 18 14:37:35 EET 2008
+	Fixed bugs in tests on FreeBSD.
+
+1.0.0   Sun Nov 16 02:16:54 EET 2008
+	Added tests for timeouts and read/write errors. Test suite complete.
+	Added documentation.
+
+0.2.0	Sat Nov 15 04:51:41 EET 2008
+	Added a lot of tests, test suite nearly complete.
+	Added plugin examples: IO::Stream::Noop and IO::Stream::NoopAlias.
+
+0.1.0	Tue Nov 11 00:02:30 EET 2008
+	Interface stabilization.
+
+0.0.1	Mon Nov  3 18:31:29 2008
+	Initial release.
+
