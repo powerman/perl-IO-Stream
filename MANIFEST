@@ -29,13 +29,16 @@ t/bench/cs_longio
 t/bench/http
 t/config.pm
 t/diagnostics.t
+t/dns-adns.t
 t/dns.t
 t/err-EAGAIN.t
 t/err-rw.t
 t/extra_fields.t
-t/fh-types.t
+t/fh-types-all.t
+t/fh-types-posix.t
 t/leak.t
 t/perlcritic.t
+t/plugin-alias.t
 t/plugin.t
 t/pod-coverage.t
 t/pod.t

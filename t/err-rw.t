@@ -4,14 +4,21 @@ use strict;
 use t::share;
 
 @CheckPoint = (
-    [ 'writer', 0, 'Broken pipe'            ], 'writer: Broken pipe',
+(WIN32 ? (
     [ 'reader', 0, 'Bad file descriptor'    ], 'reader: Bad file descriptor',
+    [ 'writer', 0, 'Unknown error'          ], 'writer: Unknown error',
+    [ 'writer', 0, 'Bad file descriptor'    ], 'writer: Bad file descriptor',
+) : (
+    [ 'writer', 0, 'Broken pipe'            ], 'writer: Broken pipe',
+    [ 'writer', 0, 'Bad file descriptor'    ], 'writer: Bad file descriptor',
+    [ 'reader', 0, 'Bad file descriptor'    ], 'reader: Bad file descriptor',
+)),
 );
 plan tests => @CheckPoint/2;
 
 socketpair my $server, my $client, AF_UNIX, SOCK_STREAM, PF_UNSPEC or die "socketpair: $!";
-fcntl $server, F_SETFL, O_NONBLOCK                        or die "fcntl: $!";
-fcntl $client, F_SETFL, O_NONBLOCK                        or die "fcntl: $!";
+nonblocking($server);
+nonblocking($client);
 
 my $r = IO::Stream->new({
     fh          => $server,
@@ -27,16 +34,19 @@ my $w = IO::Stream->new({
 });
 $w->write('x' x 204800);
 EV::loop;
+EV::loop;
 
 
 sub writer {
     my ($io, $e, $err) = @_;
     checkpoint($e, $err);
+    $io->close();
     EV::unloop;
 }
 
 sub reader {
     my ($io, $e, $err) = @_;
     checkpoint($e, $err);
+    $io->close();
     EV::unloop;
 }

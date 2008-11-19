@@ -11,7 +11,7 @@ use t::share;
 my $SIZE = 204800;
 
 plan tests =>
-    2                               # accept client
+    1                               # accept client
   + 3*4                             # server got EINBUFLIMIT
   + 5                               # server got EOF
   + $SIZE/BUFSIZE*2                 # client got OUT
@@ -24,7 +24,6 @@ my $srv_w = EV::io($srv_sock, EV::READ, sub {
         my ($port,$iaddr) = sockaddr_in($paddr);
         my $ip = inet_ntoa($iaddr);
         is($ip, '127.0.0.1', 'ip correct');
-        ok($port > 32000,    'port looks good');
         IO::Stream->new({
             fh          => $sock,
             cb          => 'Server',

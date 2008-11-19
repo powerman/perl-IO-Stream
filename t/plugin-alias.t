@@ -2,7 +2,10 @@
 use warnings;
 use strict;
 use t::share;
-use IO::Stream::Noop;
+BEGIN {
+    eval 'use Data::Alias 0.08; 1;' or plan skip_all => 'Data::Alias required';
+}
+use IO::Stream::NoopAlias;
 
 
 @CheckPoint = (
@@ -44,13 +47,13 @@ my $io = IO::Stream->new({
     in_buf_limit=> 1024,
     out_buf     => 'test',
     plugin      => [
-        noop        => IO::Stream::Noop->new(),
+        noopalias   => IO::Stream::NoopAlias->new(),
         eventlog    => IO::Stream::EventLog->new(),
     ],
 });
 
-is(ref $io->{plugin}{noop}, 'IO::Stream::Noop',
-    '{plugin}{noop} available');
+is(ref $io->{plugin}{noopalias}, 'IO::Stream::NoopAlias',
+    '{plugin}{noopalias} available');
 is(ref $io->{plugin}{eventlog}, 'IO::Stream::EventLog',
     '{plugin}{eventlog} available');
 
@@ -88,7 +91,7 @@ sub client {
 
 
 package IO::Stream::EventLog;
-use base 'IO::Stream::Noop';
+use base 'IO::Stream::NoopAlias';
 sub WRITE {
     main::checkpoint();
     shift->SUPER::WRITE(@_);

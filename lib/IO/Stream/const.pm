@@ -12,6 +12,7 @@ use Fcntl ();
 use Socket ();
 
 
+use constant WIN32 => 0;
 use constant BUFSIZE => 8192;
 
 # Events:
@@ -38,8 +39,14 @@ use constant EREQINBUFLIMIT => dualvar(-300, 'in_buf_limit required');
 use constant EREQINEOF      => dualvar(-301, 'IN or EOF required in wait_for');
 
 # Cache for speed:
+## no critic
+BEGIN { if (!WIN32) { eval '
 use constant F_SETFL        => Fcntl::F_SETFL();
 use constant O_NONBLOCK     => Fcntl::O_NONBLOCK();
+'} else { eval '
+use constant FIONBIO        => 0x8004667E;
+'}}
+## use critic
 use constant PROTO_TCP      => scalar getprotobyname 'tcp';
 use constant AF_INET        => Socket::AF_INET();
 use constant SOCK_STREAM    => Socket::SOCK_STREAM();
@@ -50,7 +57,7 @@ sub import {
     no strict 'refs';
     for my $const (qw(
 
-            BUFSIZE
+            WIN32 BUFSIZE
 
             EAGAIN
 
@@ -62,7 +69,7 @@ sub import {
             EDNS EDNSNXDOMAIN EDNSNODATA 
             EREQINBUFLIMIT EREQINEOF
 
-            F_SETFL O_NONBLOCK PROTO_TCP AF_INET SOCK_STREAM
+            F_SETFL O_NONBLOCK FIONBIO PROTO_TCP AF_INET SOCK_STREAM
 
             )) {
         *{"${pkg}::$const"} = \&{$const};

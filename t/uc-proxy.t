@@ -16,8 +16,13 @@ use constant ACCEPTED => 123;
     ['client',          'passed'    ],  '  received "passed"',
     # second test: client connect to server using proxy
     ['listener_proxy',  ACCEPTED    ],  'proxy: new client',
+  (WIN32 ? (
+    ['listener_server', ACCEPTED    ],  'server: new client',
+    ['proxy2server',    CONNECTED   ],  'proxy2server: CONNECTED',
+  ) : (
     ['proxy2server',    CONNECTED   ],  'proxy2server: CONNECTED',
     ['listener_server', ACCEPTED    ],  'server: new client',
+  )),
     ['proxy2client',    IN          ],  'proxy2client: IN',
     ['server',          IN          ],  'server: IN',
     ['server',          'test'      ],  '  received "test"',

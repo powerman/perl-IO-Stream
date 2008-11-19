@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use Carp;
 
-use version; our $VERSION = qv('1.0.1');    # update POD & Changes & README
+use version; our $VERSION = qv('1.0.2');    # update POD & Changes & README
 
 # update DEPENDENCIES in POD & Makefile.PL & README
 use Scalar::Util qw( weaken );
@@ -90,7 +90,11 @@ sub new {
         # (Most probable reason: error in socket because there no more fd.)
         socket $self->{fh}, AF_INET, SOCK_STREAM, PROTO_TCP
                                                         or croak "socket: $!";
+      if (!WIN32) {
         fcntl $self->{fh}, F_SETFL, O_NONBLOCK          or croak "fcntl: $!";
+      } else {
+        my $nb=1; ioctl $self->{fh}, FIONBIO, \$nb      or croak "ioctl: $!";
+      }
     }
 
     # Keep this object alive, even if user doesn't keep it himself.
@@ -195,7 +199,7 @@ IO::Stream - ease non-blocking I/O streams based on EV
 
 =head1 VERSION
 
-This document describes IO::Stream version 1.0.1
+This document describes IO::Stream version 1.0.2
 
 
 =head1 SYNOPSIS

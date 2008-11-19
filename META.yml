@@ -3,7 +3,6 @@ abstract: 'ease non-blocking I/O streams based on EV'
 author:
   - 'Alex Efros <powerman-asdf@ya.ru>'
 build_requires:
-  Data::Alias: 0.08
   Test::Exception: 0
   Test::More: 0
 distribution_type: module
@@ -17,10 +16,11 @@ no_index:
   directory:
     - inc
     - t
+recommends:
+  Data::Alias: 0.08
 requires:
   EV: 0
-  EV::ADNS: 0
   version: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 1.000001
+version: 1.000002

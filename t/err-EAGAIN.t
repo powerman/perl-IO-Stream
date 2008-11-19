@@ -3,20 +3,24 @@ use warnings;
 use strict;
 use t::share;
 
+if (WIN32) {
+    plan skip_all => 'OS unsupported';
+}
+
 @CheckPoint = (
     [ 'timeout_write'   ], 'force EAGAIN in syswrite',
     [ 'timeout_read'    ], 'force EAGAIN in sysread',
 );
 plan tests => @CheckPoint/2;
 
-pipe my $rd_pipe, my $wr_pipe or die "pipe: $!";
-fcntl $rd_pipe, F_SETFL, O_NONBLOCK                or croak qq{fcntl: $!};
-fcntl $wr_pipe, F_SETFL, O_NONBLOCK                or croak qq{fcntl: $!};
+socketpair my $server, my $client, AF_UNIX, SOCK_STREAM, PF_UNSPEC or die "socketpair: $!";
+nonblocking($server);
+nonblocking($client);
 
 my $timeout = $INC{'Devel/Cover.pm'} ? 2 : 0.5;
 my ($r, $w, $t);
 $w = IO::Stream->new({
-    fh          => $wr_pipe,
+    fh          => $client,
     cb          => \&writer,
     wait_for    => OUT,
 });
@@ -47,7 +51,7 @@ sub timeout_write {
     checkpoint();
     EV::feed_fd_event(fileno($w->{fh}), EV::WRITE); # force EAGAIN in syswrite
     $r = IO::Stream->new({
-        fh          => $rd_pipe,
+        fh          => $server,
         cb          => \&reader,
         wait_for    => IN,
     });

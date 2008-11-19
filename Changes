@@ -1,5 +1,8 @@
 Revision history for IO-Stream
 
+1.0.2	Wed Nov 19 03:33:16 EET 2008
+	Added compatibility with Win32.
+
 1.0.1	Tue Nov 18 14:37:35 EET 2008
 	Fixed bugs in tests on FreeBSD.
 

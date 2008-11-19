@@ -8,6 +8,10 @@ use warnings;
 use strict;
 use t::share;
 
+if (WIN32) {
+    plan skip_all => 'OS unsupported';
+}
+
 @CheckPoint = (
     [ 'writer',     SENT            ], 'writer: SENT',
     [ 'reader',     EOF             ], 'reader: EOF',
@@ -16,20 +20,6 @@ use t::share;
     [ 'writer',     SENT            ], 'writer: SENT',
     [ 'reader',     IN              ], 'reader: IN',
     [ 'reader',     'fifo'          ], '  got "fifo"',
-
-    [ 'client',     SENT            ], 'client: SENT',
-    [ 'server',     EOF             ], 'server: EOF',
-    [ 'server',     'sockpair'      ], '  got "sockpair"',
-    [ 'server',     SENT            ], 'server: SENT',
-    [ 'client',     EOF             ], 'client: EOF',
-    [ 'client',     'echo: sockpair'], '  got "echo: sockpair"',
-
-    [ 'client',     SENT            ], 'client: SENT',
-    [ 'server',     EOF             ], 'server: EOF',
-    [ 'server',     'socket'        ], '  got "socket"',
-    [ 'server',     SENT            ], 'server: SENT',
-    [ 'client',     EOF             ], 'client: EOF',
-    [ 'client',     'echo: socket'  ], '  got "echo: socket"',
 
     [ 'client',     SENT            ], 'client: SENT',
     [ 'server',     EOF             ], 'server: EOF',
@@ -42,8 +32,8 @@ plan tests => @CheckPoint/2;
 
 
 pipe my $rd_pipe, my $wr_pipe or die "pipe: $!";
-fcntl $rd_pipe, F_SETFL, O_NONBLOCK                        or die "fcntl: $!";
-fcntl $wr_pipe, F_SETFL, O_NONBLOCK                        or die "fcntl: $!";
+nonblocking($rd_pipe);
+nonblocking($wr_pipe);
 stream1('pipe', $rd_pipe, $wr_pipe);
 
 my $fifo = "/tmp/fifo.$$";
@@ -53,18 +43,9 @@ open my $tmp_fifo, '+>', $fifo or die "open: $!";
 open my $rd_fifo, '<', $fifo or die "open: $!";
 open my $wr_fifo, '>', $fifo or die "open: $!";
 close $tmp_fifo or die "close: $!";
-fcntl $rd_fifo, F_SETFL, O_NONBLOCK                        or die "fcntl: $!";
-fcntl $wr_fifo, F_SETFL, O_NONBLOCK                        or die "fcntl: $!";
+nonblocking($rd_fifo);
+nonblocking($wr_fifo);
 stream1('fifo', $rd_fifo, $wr_fifo, 1);
-
-socketpair my $server, my $client, AF_UNIX, SOCK_STREAM, PF_UNSPEC or die "socketpair: $!";
-stream2('sockpair', $server, $client);
-
-my $lst_sock = tcp_server('127.0.0.1', 1234);
-my $cln_sock = tcp_client('127.0.0.1', 1234);
-accept my $srv_sock, $lst_sock or die "accept: $!";
-close $lst_sock or die "close: $!";
-stream2('socket', $srv_sock, $cln_sock);
 
 my $lst_unix = unix_server("/tmp/sock.$$");
 my $cln_unix = unix_client("/tmp/sock.$$");

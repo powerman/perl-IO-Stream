@@ -10,14 +10,16 @@ use t::share;
 );
 plan tests => @CheckPoint/2;
 
-pipe my $rd_pipe, my $wr_pipe or die "pipe: $!";
+socketpair my $server, my $client, AF_UNIX, SOCK_STREAM, PF_UNSPEC or die "socketpair: $!";
+nonblocking($server);
+nonblocking($client);
 my $r = IO::Stream->new({
-    fh          => $rd_pipe,
+    fh          => $server,
     cb          => \&reader,
     wait_for    => 0,
 });
 my $w = IO::Stream->new({
-    fh          => $wr_pipe,
+    fh          => $client,
     cb          => \&writer,
     wait_for    => 0,
 });
