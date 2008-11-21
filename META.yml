@@ -20,7 +20,8 @@ recommends:
   Data::Alias: 0.08
 requires:
   EV: 0
+  EV::ADNS: 0
   version: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 1.000002
+version: 1.000003

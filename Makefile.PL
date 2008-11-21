@@ -14,7 +14,7 @@ unlink File::Spec->catfile(qw( lib IO Stream const.pm.bak ));
 
 requires 'version';
 requires 'EV';
-if (!WIN32) {
+if (!$WIN32) {
 requires 'EV::ADNS';
 }
 
