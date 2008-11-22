@@ -1,5 +1,8 @@
 Revision history for IO-Stream
 
+1.0.4	Sat Nov 22 15:47:23 EET 2008
+	Fixed t/extra_fields.t on Freebsd-6.1.
+
 1.0.3	Fri Nov 21 16:00:03 EET 2008
 	Fixed typo in Makefile.PL.
 

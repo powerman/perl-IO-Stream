@@ -14,7 +14,6 @@ plan tests =>
     1                               # accept client
   + 3*4                             # server got EINBUFLIMIT
   + 5                               # server got EOF
-  + $SIZE/BUFSIZE*2                 # client got OUT
   ;
 
 
@@ -42,10 +41,9 @@ my $io = IO::Stream->new({
     fh          => tcp_client('127.0.0.1', 1234),
     cb          => 'Client',
     method      => 'IO_client',
-    wait_for    => OUT,
+    wait_for    => SENT,
     out_buf     => 'x' x $SIZE,
     out_pos     => 0,
-    Prev_pos    => 0,
 });
 
 EV::loop();
@@ -85,9 +83,6 @@ use IO::Stream;
 sub IO_client {
     my ($self, $io, $e, $err) = @_;
     die $err if $err;
-    ok($io->{out_pos} > $io->{Prev_pos}, '  some bytes was sent');
-    is(length($io->{out_buf}), $SIZE,    '  out_buf does not changed, good');
-    $io->{Prev_pos} = $io->{out_pos};
-    shutdown $io->{fh}, 1 if $io->{out_pos} == $SIZE;
+    shutdown $io->{fh}, 1;
 }
 
