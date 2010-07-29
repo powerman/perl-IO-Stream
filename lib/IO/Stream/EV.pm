@@ -174,6 +174,9 @@ sub W {
                 substr $m->{out_buf}, 0, $n, q{};
                 $has_out = $len > $n;
             }
+            if ($self->{_t}) {
+                $self->{_t} = EV::timer(TOWRITE, 0, $self->{_cb_t});
+            }
             $e |= $has_out ? OUT : (OUT|SENT);
         }
     }

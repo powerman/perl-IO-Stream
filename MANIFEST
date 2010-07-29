@@ -44,6 +44,7 @@ t/pod-coverage.t
 t/pod.t
 t/share.pm
 t/timeout-connect.t
+t/timeout-write-slowclient.t
 t/timeout-write.t
 t/uc-echo.t
 t/uc-google.t

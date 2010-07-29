@@ -1,4 +1,4 @@
-package IO::Stream::const;
+package IO::Stream::const; ## no critic (NamingConventions::Capitalization)
 
 use warnings;
 use strict;

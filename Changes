@@ -1,5 +1,8 @@
 Revision history for IO-Stream
 
+1.0.5	Thu Jul 29 16:20:34 EEST 2010
+	Fixed timeout on write.
+
 1.0.4	Sat Nov 22 15:47:23 EET 2008
 	Fixed t/extra_fields.t on Freebsd-6.1.
 

@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use Carp;
 
-use version; our $VERSION = qv('1.0.4');    # update POD & Changes & README
+use version; our $VERSION = qv('1.0.5');    # update POD & Changes & README
 
 # update DEPENDENCIES in POD & Makefile.PL & README
 use Scalar::Util qw( weaken );
@@ -199,7 +199,7 @@ IO::Stream - ease non-blocking I/O streams based on EV
 
 =head1 VERSION
 
-This document describes IO::Stream version 1.0.4
+This document describes IO::Stream version 1.0.5
 
 
 =head1 SYNOPSIS
