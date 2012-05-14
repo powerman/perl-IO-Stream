@@ -1,5 +1,8 @@
 Revision history for IO-Stream
 
+1.0.6	Mon May 14 16:46:48 EEST 2012
+	Fixed tests for portability.
+
 1.0.5	Thu Jul 29 16:20:34 EEST 2010
 	Fixed timeout on write.
 

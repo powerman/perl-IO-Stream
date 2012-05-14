@@ -4,17 +4,27 @@ use strict;
 use t::share;
 
 @CheckPoint = (
-(WIN32 ? (
-    [ 'reader', 0, 'Bad file descriptor'    ], 'reader: Bad file descriptor',
-    [ 'writer', 0, 'Unknown error'          ], 'writer: Unknown error',
-    [ 'writer', 0, 'Bad file descriptor'    ], 'writer: Bad file descriptor',
-) : (
-    [ 'writer', 0, 'Broken pipe'            ], 'writer: Broken pipe',
-    [ 'writer', 0, 'Bad file descriptor'    ], 'writer: Bad file descriptor',
-    [ 'reader', 0, 'Bad file descriptor'    ], 'reader: Bad file descriptor',
-)),
+    {
+	win32 => [
+    	    [ 'reader', 0, 'Bad file descriptor'    ], 'reader: Bad file descriptor',
+	    {
+		unknown => [
+	    	    [ 'writer', 0, 'Unknown error'          ], 'writer: Unknown error',
+		],
+		aborted => [
+	    	    [ 'writer', 0, 'An established connection was aborted by the software in your host machine.'          ], 'writer: established connection was aborted',
+		],
+	    },
+    	    [ 'writer', 0, 'Bad file descriptor'    ], 'writer: Bad file descriptor',
+	],
+	other => [
+    	    [ 'writer', 0, 'Broken pipe'            ], 'writer: Broken pipe',
+    	    [ 'writer', 0, 'Bad file descriptor'    ], 'writer: Bad file descriptor',
+    	    [ 'reader', 0, 'Bad file descriptor'    ], 'reader: Bad file descriptor',
+	],
+    },
 );
-plan tests => @CheckPoint/2;
+plan tests => checkpoint_count();
 
 socketpair my $server, my $client, AF_UNIX, SOCK_STREAM, PF_UNSPEC or die "socketpair: $!";
 nonblocking($server);

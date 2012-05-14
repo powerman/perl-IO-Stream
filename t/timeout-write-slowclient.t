@@ -12,18 +12,25 @@ use t::share;
 @CheckPoint = (
     [ 'client',     RESOLVED, undef        ], 'client: RESOLVED',
     [ 'client',     CONNECTED|OUT, undef   ], 'client: CONNECTED',
-    [ 'server',     8192,                  ], 'server: read 8192 bytes',
-    [ 'server',     8192,                  ], 'server: read 8192 bytes',
-    [ 'server',     8192,                  ], 'server: read 8192 bytes',
-    [ 'server',     8192,                  ], 'server: read 8192 bytes',
-    [ 'server',     8192,                  ], 'server: read 8192 bytes',
-    [ 'server',     8192,                  ], 'server: read 8192 bytes',
-    [ 'server',     8192,                  ], 'server: read 8192 bytes',
-    [ 'server',     8192,                  ], 'server: read 8192 bytes',
-    [ 'server',     8192,                  ], 'server: read 8192 bytes',
-    [ 'server',     8192,                  ], 'server: read 8192 bytes',
+    {
+	small_first_pkt => [
+	    [ 'server',     8192,                  ], 'server: read 8192 bytes',
+	],
+	usual_first_pkt => [
+	    [ 'server',     16384,                 ], 'server: read 16384 bytes',
+	],
+    },
+    [ 'server',     16384,                 ], 'server: read 16384 bytes',
+    [ 'server',     16384,                 ], 'server: read 16384 bytes',
+    [ 'server',     16384,                 ], 'server: read 16384 bytes',
+    [ 'server',     16384,                 ], 'server: read 16384 bytes',
+    [ 'server',     16384,                 ], 'server: read 16384 bytes',
+    [ 'server',     16384,                 ], 'server: read 16384 bytes',
+    [ 'server',     16384,                 ], 'server: read 16384 bytes',
+    [ 'server',     16384,                 ], 'server: read 16384 bytes',
+    [ 'server',     16384,                 ], 'server: read 16384 bytes',
 );
-plan tests => @CheckPoint/2;
+plan tests => checkpoint_count();
 
 
 
@@ -49,7 +56,7 @@ EV::loop;
 
 sub server {
     my ($sock, $i) = @_;
-    my $n = sysread $sock, my $buf, 8192;
+    my $n = sysread $sock, my $buf, 16384;
     checkpoint($n);
     EV::unloop if !--$$i;
     return;

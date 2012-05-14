@@ -76,7 +76,7 @@ sub WRITE {
 
 sub resolve {
     my ($host, $plugin, $cb) = @_;
-    if ($host =~ /\A\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/xms) {
+    if ($host =~ /\A\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}\z/xms) {
         $cb->($plugin, $host);
     }
     elsif (WIN32) {

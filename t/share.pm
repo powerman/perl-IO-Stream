@@ -30,14 +30,45 @@ use t::config;
 #    [ 'ssl_client', SENT            ], 'client: request sent',
 #    [ 'ssl_server', EOF             ], 'server: got eof',
 #    [ 'ssl_server', $msg            ], 'server: requst is correct',
-#    [ 'ssl_server', SENT            ], 'server: reply sent',
-#    [ 'ssl_client', EOF             ], 'client: got eof',
+#    {
+#	win32 => [
+#	    [ 'ssl_client', EOF             ], 'client: got eof',
+#	    [ 'ssl_server', SENT            ], 'server: reply sent',
+#	],
+#	other => [
+#	    [ 'ssl_server', SENT            ], 'server: reply sent',
+#	    [ 'ssl_client', EOF             ], 'client: got eof',
+#	],
+#    },
 #    [ 'ssl_client', "echo: $msg"    ], 'client: reply is correct',
 #);
-#plan tests => @CheckPoint/2;
+#plan tests => checkpoint_count();
+#
+# NOTE	Alternatives in @CheckPoint must have same amount of tests!
 use vars qw( @CheckPoint );
+sub _checkpoint_unwrap {
+    return @_ if !grep {ref eq 'HASH'} @_;
+    return _checkpoint_unwrap(map{ref eq 'HASH' ? @{(values %$_)[0]} : $_}@_);
+}
+sub checkpoint_count {
+    return _checkpoint_unwrap(@CheckPoint)/2;
+}
 sub checkpoint {
     my ($func) = (caller(1))[3]=~/.*::(.*)/;
+    if (ref $CheckPoint[0] eq 'HASH') {
+	my %alt = %{ $CheckPoint[0] };
+	for my $key (keys %alt) {
+	    if (eq_array([$func, @_], $alt{$key}[0])) {
+		diag "Alternative match: $key";
+		shift @CheckPoint;
+		unshift @CheckPoint, @{ $alt{$key} };
+		last;
+	    }
+	}
+    }
+    if (ref $CheckPoint[0] eq 'HASH') {
+	croak("No alternative to match: $func @_");
+    }
     is_deeply([$func, @_], shift @CheckPoint, shift @CheckPoint);
     return;
 }

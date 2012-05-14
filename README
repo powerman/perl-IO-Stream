@@ -1,4 +1,4 @@
-IO-Stream version 1.0.5
+IO-Stream version 1.0.6
 
 Non-blocking event-based low-level I/O is hard to get right. Code usually
 error-prone and complex... and it very similar in all applications. Things

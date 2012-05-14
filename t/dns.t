@@ -16,6 +16,7 @@ EV::loop;
 
 sub client {
     my ($io, $e, $err) = @_;
+    # sometimes test fail because we got 'Connection reset by peer' instead
     is($err, IO::Stream::EDNSNXDOMAIN, 'no such host');
     EV::unloop;
 }

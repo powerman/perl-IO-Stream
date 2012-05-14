@@ -16,13 +16,16 @@ use constant ACCEPTED => 123;
     ['client',          'passed'    ],  '  received "passed"',
     # second test: client connect to server using proxy
     ['listener_proxy',  ACCEPTED    ],  'proxy: new client',
-  (WIN32 ? (
-    ['listener_server', ACCEPTED    ],  'server: new client',
-    ['proxy2server',    CONNECTED   ],  'proxy2server: CONNECTED',
-  ) : (
-    ['proxy2server',    CONNECTED   ],  'proxy2server: CONNECTED',
-    ['listener_server', ACCEPTED    ],  'server: new client',
-  )),
+    { 
+	win32_somefreebsd => [
+	    ['listener_server', ACCEPTED    ],  'server: new client',
+	    ['proxy2server',    CONNECTED   ],  'proxy2server: CONNECTED',
+	],
+	other => [
+	    ['proxy2server',    CONNECTED   ],  'proxy2server: CONNECTED',
+	    ['listener_server', ACCEPTED    ],  'server: new client',
+	],
+    },
     ['proxy2client',    IN          ],  'proxy2client: IN',
     ['server',          IN          ],  'server: IN',
     ['server',          'test'      ],  '  received "test"',
@@ -35,7 +38,7 @@ use constant ACCEPTED => 123;
 );
 plan tests => 
     2               # {is_eof} tests in client() and client2()
-  + @CheckPoint/2;
+  + checkpoint_count();
 
 
 my $srv_sock = tcp_server('0.0.0.0', 20080);

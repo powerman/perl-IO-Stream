@@ -23,7 +23,7 @@ plan tests => @CheckPoint/2;
 
 IO::Stream->new({
     host        => 'google.com',
-    port        => 21,
+    port        => 2121,
     cb          => \&client,
     wait_for    => RESOLVED|CONNECTED,
 });

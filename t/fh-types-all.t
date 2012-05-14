@@ -33,7 +33,12 @@ stream2('sockpair', $server, $client);
 
 my $lst_sock = tcp_server('127.0.0.1', 1234);
 my $cln_sock = tcp_client('127.0.0.1', 1234);
-accept my $srv_sock, $lst_sock or die "accept: $!";
+my $srv_sock;
+use Errno qw( EBADF );
+until (accept $srv_sock, $lst_sock) {
+    $! == EAGAIN or (WIN32 && $! == EBADF) or die "accept: $!";
+    sleep 1;
+}
 close $lst_sock or die "close: $!";
 stream2('socket', $srv_sock, $cln_sock);
 
