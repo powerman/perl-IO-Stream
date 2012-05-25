@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use Carp;
 
-use version; our $VERSION = qv('1.0.6');    # update POD & Changes & README
+use version; our $VERSION = qv('1.0.7');    # update POD & Changes & README
 
 # update DEPENDENCIES in POD & Makefile.PL & README
 use Scalar::Util qw( weaken );
@@ -25,6 +25,7 @@ my %tags = (
         EINBUFLIMIT 
         ETORESOLVE ETOCONNECT ETOWRITE
         EDNS EDNSNXDOMAIN EDNSNODATA
+        EREQINBUFLIMIT EREQINEOF
     ) ],
 );
 $tags{ALL} = $tags{DEFAULT} = [ map { @{$_} } values %tags ];
@@ -199,7 +200,7 @@ IO::Stream - ease non-blocking I/O streams based on EV
 
 =head1 VERSION
 
-This document describes IO::Stream version 1.0.6
+This document describes IO::Stream version 1.0.7
 
 
 =head1 SYNOPSIS
@@ -279,6 +280,7 @@ Errors:
     EINBUFLIMIT
     ETORESOLVE ETOCONNECT ETOWRITE
     EDNS EDNSNXDOMAIN EDNSNODATA
+    EREQINBUFLIMIT EREQINEOF
 
 Errors are similar to $! - they're dualvars, having both textual and numeric
 values.

@@ -4,9 +4,9 @@ use strict;
 use t::share;
 
 @CheckPoint = (
-    [ 'reader', 0, IO::Stream::EREQINEOF        ], 'reader: EREQINEOF',
-    [ 'reader', 0, IO::Stream::EREQINBUFLIMIT   ], 'reader: EREQINBUFLIMIT',
-    [ 'reader', IN, '123'                       ], 'reader: IN "123"',
+    [ 'reader', 0, EREQINEOF        ], 'reader: EREQINEOF',
+    [ 'reader', 0, EREQINBUFLIMIT   ], 'reader: EREQINBUFLIMIT',
+    [ 'reader', IN, '123'           ], 'reader: IN "123"',
 );
 plan tests => @CheckPoint/2;
 

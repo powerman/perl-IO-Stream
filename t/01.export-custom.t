@@ -2,18 +2,18 @@ use warnings;
 use strict;
 use Test::More;
 
-use IO::Stream qw(:Event EINBUFLIMIT :BadTag BadConst);
+use IO::Stream qw(:Event EINBUFLIMIT EREQINEOF :BadTag BadConst);
 
 my @exports = qw(
         RESOLVED CONNECTED IN EOF OUT SENT
-        EINBUFLIMIT
+        EINBUFLIMIT EREQINEOF
     );
 my @not_exports = qw(
         ETORESOLVE ETOCONNECT ETOWRITE
         EDNS EDNSNXDOMAIN EDNSNODATA
         BUFSIZE
         TOCONNECT TOWRITE
-        EREQINBUFLIMIT EREQINEOF
+        EREQINBUFLIMIT
     );
 
 plan +(@exports + @not_exports)

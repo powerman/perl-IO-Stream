@@ -8,12 +8,12 @@ my @exports = qw(
         EINBUFLIMIT
         ETORESOLVE ETOCONNECT ETOWRITE
         EDNS EDNSNXDOMAIN EDNSNODATA
+        EREQINBUFLIMIT EREQINEOF
     );
 my @not_exports = qw(
         RESOLVED CONNECTED IN EOF OUT SENT
         BUFSIZE
         TOCONNECT TOWRITE
-        EREQINBUFLIMIT EREQINEOF
     );
 
 plan +(@exports + @not_exports)
