@@ -3,7 +3,7 @@ package IO::Stream::EV;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv('1.0.0');
+use version; our $VERSION = qv('1.0.8');
 
 use IO::Stream::const;
 

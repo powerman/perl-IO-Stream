@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use Carp;
 
-use version; our $VERSION = qv('1.0.7');    # update POD & Changes & README
+use version; our $VERSION = qv('1.0.8');    # update POD & Changes & README
 
 # update DEPENDENCIES in POD & Makefile.PL & README
 use Scalar::Util qw( weaken );
@@ -200,7 +200,7 @@ IO::Stream - ease non-blocking I/O streams based on EV
 
 =head1 VERSION
 
-This document describes IO::Stream version 1.0.7
+This document describes IO::Stream version 1.0.8
 
 
 =head1 SYNOPSIS
@@ -707,7 +707,7 @@ Alex Efros  C<< <powerman-asdf@ya.ru> >>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2008, Alex Efros C<< <powerman-asdf@ya.ru> >>. All rights reserved.
+Copyright (c) 2008,2014, Alex Efros C<< <powerman-asdf@ya.ru> >>. All rights reserved.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.

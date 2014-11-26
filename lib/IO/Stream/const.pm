@@ -1,9 +1,9 @@
-package IO::Stream::const; ## no critic (NamingConventions::Capitalization)
+package IO::Stream::const;
 
 use warnings;
 use strict;
 
-use version; our $VERSION = qv('0.1.0');
+use version; our $VERSION = qv('1.0.8');
 
 # update DEPENDENCIES in POD & Makefile.PL & README
 use Scalar::Util qw( dualvar );

@@ -30,5 +30,7 @@ printf {$f} "use constant CFG_ONLINE => '%s';\n", $online;
 printf {$f} '1;';
 close $f or die "close: $!";
 
+auto_install;
+
 WriteAll;
 

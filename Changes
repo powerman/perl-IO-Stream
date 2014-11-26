@@ -1,5 +1,8 @@
 Revision history for IO-Stream
 
+1.0.8   Wed Nov 26 06:03:40 EET 2014
+	Fixed tests for portability.
+
 1.0.7	Fri May 25 07:01:53 EEST 2012
 	Export EREQINEOF and EREQINBUFLIMIT.
 

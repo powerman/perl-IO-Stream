@@ -1,4 +1,4 @@
-IO-Stream version 1.0.7
+IO-Stream version 1.0.8
 
 Non-blocking event-based low-level I/O is hard to get right. Code usually
 error-prone and complex... and it very similar in all applications. Things
@@ -32,7 +32,7 @@ EV::ADNS
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2008, Alex Efros
+Copyright (C) 2008,2014, Alex Efros
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

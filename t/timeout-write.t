@@ -18,13 +18,13 @@ plan tests => @CheckPoint/2;
 
 
 
-my $srv_sock = tcp_server('127.0.0.1', 4444);
+my $srv_sock = tcp_server('127.0.0.1', 4447);
 IO::Stream->new({
     host        => '127.0.0.1',
-    port        => 4444,
+    port        => 4447,
     cb          => \&client,
     wait_for    => RESOLVED|CONNECTED|SENT,
-    out_buf     => ('x' x 2048000),
+    out_buf     => ('x' x 10_000_000),
 });
 
 EV::loop;
