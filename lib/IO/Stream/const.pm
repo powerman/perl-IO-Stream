@@ -3,7 +3,7 @@ package IO::Stream::const;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv('1.0.8');
+use version; our $VERSION = qv('1.0.9');
 
 # update DEPENDENCIES in POD & Makefile.PL & README
 use Scalar::Util qw( dualvar );

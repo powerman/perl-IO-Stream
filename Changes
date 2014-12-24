@@ -1,5 +1,8 @@
 Revision history for IO-Stream
 
+1.0.9   Wed Dec 24 11:54:43 EET 2014
+	Fixed tests for portability.
+
 1.0.8   Wed Nov 26 06:03:40 EET 2014
 	Fixed tests for portability.
 

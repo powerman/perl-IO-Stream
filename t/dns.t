@@ -3,6 +3,10 @@ use warnings;
 use strict;
 use t::share;
 
+if (WIN32) {
+    plan skip_all => 'OS unsupported';
+}
+
 plan tests => 1;
 
 IO::Stream->new({
