@@ -3,7 +3,7 @@ package IO::Stream::const;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv('1.0.9');
+use version; our $VERSION = qv('1.0.10');
 
 # update DEPENDENCIES in POD & Makefile.PL & README
 use Scalar::Util qw( dualvar );
@@ -39,7 +39,7 @@ use constant EREQINBUFLIMIT => dualvar(-300, 'in_buf_limit required');
 use constant EREQINEOF      => dualvar(-301, 'IN or EOF required in wait_for');
 
 # Cache for speed:
-## no critic
+## no critic (ProhibitStringyEval RequireCheckingReturnValueOfEval ProhibitImplicitNewlines)
 BEGIN { if (!WIN32) { eval '
 use constant F_SETFL        => Fcntl::F_SETFL();
 use constant O_NONBLOCK     => Fcntl::O_NONBLOCK();

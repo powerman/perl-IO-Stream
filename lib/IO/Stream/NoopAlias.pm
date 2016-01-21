@@ -3,7 +3,7 @@ package IO::Stream::NoopAlias;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv('1.0.9');
+use version; our $VERSION = qv('1.0.10');
 
 use Data::Alias 0.08;
 

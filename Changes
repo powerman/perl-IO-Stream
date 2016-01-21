@@ -1,5 +1,8 @@
 Revision history for IO-Stream
 
+1.0.10  Thu Jan 21 14:42:34 EET 2016
+	Fixed resolving to IPv6 instead of IPv4, thanks Tom Belfort.
+
 1.0.9   Wed Dec 24 11:54:43 EET 2014
 	Fixed tests for portability.
 

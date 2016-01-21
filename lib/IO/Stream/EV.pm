@@ -3,7 +3,7 @@ package IO::Stream::EV;
 use warnings;
 use strict;
 
-use version; our $VERSION = qv('1.0.9');
+use version; our $VERSION = qv('1.0.10');
 
 use IO::Stream::const;
 
@@ -11,7 +11,7 @@ use IO::Stream::const;
 use Scalar::Util qw( weaken );
 use Socket qw( inet_aton sockaddr_in );
 use EV;
-BEGIN { if (!WIN32) { eval 'use EV::ADNS; 1' or die $@ }} ## no critic
+BEGIN { if (!WIN32) { eval 'use EV::ADNS; 1' or die $@ }} ## no critic (ProhibitStringyEval RequireCarping)
 
 
 
@@ -91,7 +91,7 @@ sub resolve {
     else {
         weaken($plugin);
         # WARNING   ADNS has own timeouts, so we don't setup own here.
-        EV::ADNS::submit $host, EV::ADNS::r_addr(), 0, sub {
+        EV::ADNS::submit $host, EV::ADNS::r_a(), 0, sub {
             my ($status, undef, @a) = @_;
             return if !$plugin;
             if ($status == EV::ADNS::s_ok()) {

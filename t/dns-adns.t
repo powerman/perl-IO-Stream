@@ -11,7 +11,7 @@ plan tests => 1;
 
 # cover code which process stale ADNS replies on closed streams
 IO::Stream->new({
-    host        => "no_such_host_$$.com",
+    host        => 'no.such.host.q1w2e3',
     port        => 80,
     cb          => \&client,
     wait_for    => IN,

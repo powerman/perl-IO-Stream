@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use Carp;
 
-use version; our $VERSION = qv('1.0.9');    # update POD & Changes & README
+use version; our $VERSION = qv('1.0.10');    # update POD & Changes & README
 
 # update DEPENDENCIES in POD & Makefile.PL & README
 use Scalar::Util qw( weaken );
@@ -19,19 +19,19 @@ use IO::Stream::EV;
 #
 # Usage: use IO::Stream qw( :ALL :DEFAULT :Event :Error IN EINBUFLIMIT ... )
 #
-my %tags = (
-    Event   => [ qw( RESOLVED CONNECTED IN OUT EOF SENT ) ],
-    Error   => [ qw(
-        EINBUFLIMIT 
-        ETORESOLVE ETOCONNECT ETOWRITE
-        EDNS EDNSNXDOMAIN EDNSNODATA
-        EREQINBUFLIMIT EREQINEOF
-    ) ],
-);
-$tags{ALL} = $tags{DEFAULT} = [ map { @{$_} } values %tags ];
-my %known = map { $_ => 1 } @{ $tags{ALL} };
-
 sub import {
+    my %tags = (
+        Event   => [ qw( RESOLVED CONNECTED IN OUT EOF SENT ) ],
+        Error   => [ qw(
+            EINBUFLIMIT 
+            ETORESOLVE ETOCONNECT ETOWRITE
+            EDNS EDNSNXDOMAIN EDNSNODATA
+            EREQINBUFLIMIT EREQINEOF
+        ) ],
+    );
+    $tags{ALL} = $tags{DEFAULT} = [ map { @{$_} } values %tags ];
+    my %known = map { $_ => 1 } @{ $tags{ALL} };
+
     my (undef, @p) = @_;
     if (!@p) {
         @p = (':DEFAULT');
@@ -200,7 +200,7 @@ IO::Stream - ease non-blocking I/O streams based on EV
 
 =head1 VERSION
 
-This document describes IO::Stream version 1.0.9
+This document describes IO::Stream version 1.0.10
 
 
 =head1 SYNOPSIS
@@ -289,7 +289,7 @@ values.
 =head1 OVERVIEW
 
 You can create IO::Stream object using any "stream" fh
-(file, tty, unix socket, tcp socket, pipe, fifo).
+(file, tty, UNIX socket, TCP socket, pipe, FIFO).
 Or, if you need tcp socket, you can create IO::Stream object using host+port
 instead of fh (in this case IO::Stream will do non-blocking host resolving,
 create tcp socket and do non-blocking connect).
@@ -365,7 +365,7 @@ call $stream->close() on SENT event.
 =head2 TIMEOUTS
 
 IO::Stream has 30-second timeouts for connect and write,
-to timeout dns resolve it use default EV::ADNS timeout.
+to timeout DNS resolve it use default EV::ADNS timeout.
 If you need to timeout other operations, you have to create own timers
 using EV::timer().
 
@@ -707,7 +707,7 @@ Alex Efros  C<< <powerman-asdf@ya.ru> >>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2008,2014, Alex Efros C<< <powerman-asdf@ya.ru> >>. All rights reserved.
+Copyright (c) 2008,2014,2016, Alex Efros C<< <powerman-asdf@ya.ru> >>. All rights reserved.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.

@@ -10,7 +10,7 @@ if (WIN32) {
 plan tests => 1;
 
 IO::Stream->new({
-    host        => 'no.such.host',
+    host        => 'no.such.host.q1w2e3',
     port        => 80,
     cb          => \&client,
     wait_for    => IN,
