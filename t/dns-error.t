@@ -3,13 +3,8 @@ use warnings;
 use strict;
 use t::share;
 
-if (WIN32) {
-    plan skip_all => 'OS unsupported';
-}
 
-plan tests => 1;
-
-# cover code which process stale ADNS replies on closed streams
+# cover code which process stale DNS replies on closed streams
 IO::Stream->new({
     host        => 'no.such.host.q1w2e3',
     port        => 80,
@@ -19,3 +14,5 @@ IO::Stream->new({
 
 ok(1);
 
+
+done_testing();

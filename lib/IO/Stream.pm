@@ -287,6 +287,10 @@ Errors:
 Errors are similar to $! - they're dualvars, having both textual and numeric
 values.
 
+B<NOTE:> Since v2.0.0 C<ETORESOLVE>, C<EDNSNXDOMAIN> and C<EDNSNODATA> are
+not used anymore (C<EDNS> is used instead), but they're still exported for
+compatibility.
+
 
 =head1 OVERVIEW
 
@@ -367,7 +371,7 @@ call $stream->close() on SENT event.
 =head2 TIMEOUTS
 
 IO::Stream has 30-second timeouts for connect and write,
-to timeout DNS resolve it use default EV::ADNS timeout.
+to timeout DNS resolve it use default AnyEvent::DNS timeout.
 If you need to timeout other operations, you have to create own timers
 using EV::timer().
 

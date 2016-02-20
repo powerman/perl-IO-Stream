@@ -89,6 +89,10 @@ Errors:
 Errors are similar to $! - they're dualvars, having both textual and numeric
 values.
 
+**NOTE:** Since v2.0.0 `ETORESOLVE`, `EDNSNXDOMAIN` and `EDNSNODATA` are
+not used anymore (`EDNS` is used instead), but they're still exported for
+compatibility.
+
 # OVERVIEW
 
 You can create IO::Stream object using any "stream" fh
@@ -162,7 +166,7 @@ IO::Stream object. (The same is applicable for all plugin objects too.)
 ## TIMEOUTS
 
 IO::Stream has 30-second timeouts for connect and write,
-to timeout DNS resolve it use default EV::ADNS timeout.
+to timeout DNS resolve it use default AnyEvent::DNS timeout.
 If you need to timeout other operations, you have to create own timers
 using EV::timer().
 

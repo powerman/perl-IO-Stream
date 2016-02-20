@@ -1,7 +1,7 @@
 requires 'perl', '5.010001';
 
+requires 'AnyEvent::DNS';
 requires 'EV';
-requires 'EV::ADNS';
 requires 'Scalar::Util';
 requires 'Socket';
 recommends 'Data::Alias', '0.08';

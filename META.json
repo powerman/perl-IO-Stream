@@ -42,8 +42,8 @@
             "Data::Alias" : "0.08"
          },
          "requires" : {
+            "AnyEvent::DNS" : "0",
             "EV" : "0",
-            "EV::ADNS" : "0",
             "Scalar::Util" : "0",
             "Socket" : "0",
             "perl" : "5.010001"

@@ -2,6 +2,7 @@ Revision history for IO-Stream
 
 {{$NEXT}}
 	- Switch to Dist::Milla.
+	- Switch from EV::ADNS to AnyEvent::DNS.
 
 1.0.10  2016-01-21 14:42:34 EET
 	- Fixed resolving to IPv6 instead of IPv4, thanks Tom Belfort.

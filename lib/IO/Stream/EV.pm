@@ -12,7 +12,7 @@ use IO::Stream::const;
 use Scalar::Util qw( weaken );
 use Socket qw( inet_aton sockaddr_in );
 use EV;
-BEGIN { if (!WIN32) { eval { require EV::ADNS } or die $@ }} ## no critic (RequireCarping)
+use AnyEvent::DNS;
 
 # States:
 use constant RESOLVING      => 1;
@@ -78,40 +78,22 @@ sub resolve {
     if ($host =~ /\A\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}\z/xms) {
         $cb->($plugin, $host);
     }
-    elsif (WIN32) {
-        my $iaddr = inet_aton($host);
-        if ($iaddr) {
-            $cb->($plugin, join q{.}, unpack 'C4', $iaddr);
-        }
-        else {
-            $plugin->{_master}->EVENT(0, EDNSNXDOMAIN);
-        }
-    }
     else {
         weaken($plugin);
-        # WARNING   ADNS has own timeouts, so we don't setup own here.
-        EV::ADNS::submit $host, EV::ADNS::r_a(), 0, sub {
-            my ($status, undef, @a) = @_;
+        # AnyEvent::DNS has own timeouts, so we don't setup own here.
+        AnyEvent::DNS::a $host, sub {
+            my (@a) = @_;
             return if !$plugin;
-            if ($status == EV::ADNS::s_ok()) {
+            if (@a) {
                 $cb->($plugin, @a);
             }
             else {
-                $plugin->{_master}->EVENT(0, adns2err($status));
+                $plugin->{_master}->EVENT(0, EDNS);
             }
             return;
         };
     }
     return;
-}
-
-sub adns2err {
-    my ($status) = @_;
-    return
-        $status == EV::ADNS::s_timeout()  ? ETORESOLVE
-      : $status == EV::ADNS::s_nxdomain() ? EDNSNXDOMAIN
-      : $status == EV::ADNS::s_nodata()   ? EDNSNODATA
-      :                                     EDNS
 }
 
 sub T {

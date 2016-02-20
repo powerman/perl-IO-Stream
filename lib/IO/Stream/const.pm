@@ -30,12 +30,12 @@ use constant TOWRITE        => 30;
 
 # Custom errors:
 use constant EINBUFLIMIT    => dualvar(-100, 'in_buf_limit reached');
-use constant ETORESOLVE     => dualvar(-101, 'dns timeout');
+use constant ETORESOLVE     => dualvar(-101, 'dns timeout');    # unused, keep for compatibility
 use constant ETOCONNECT     => dualvar(-102, 'connect timeout');
 use constant ETOWRITE       => dualvar(-103, 'write timeout');
 use constant EDNS           => dualvar(-200, 'dns error');
-use constant EDNSNXDOMAIN   => dualvar(-201, 'dns nxdomain');
-use constant EDNSNODATA     => dualvar(-202, 'dns nodata');
+use constant EDNSNXDOMAIN   => dualvar(-201, 'dns nxdomain');   # unused, keep for compatibility
+use constant EDNSNODATA     => dualvar(-202, 'dns nodata');     # unused, keep for compatibility
 use constant EREQINBUFLIMIT => dualvar(-300, 'in_buf_limit required');
 use constant EREQINEOF      => dualvar(-301, 'IN or EOF required in wait_for');
 
