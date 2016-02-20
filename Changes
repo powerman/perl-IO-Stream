@@ -1,6 +1,8 @@
 Revision history for IO-Stream
 
 {{$NEXT}}
+
+v2.0.0  2016-02-20 10:27:47 EET
 	- Switch to Dist::Milla.
 	- Switch from EV::ADNS to AnyEvent::DNS.
 	- Fixed tests for portability.

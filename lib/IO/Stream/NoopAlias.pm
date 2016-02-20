@@ -6,7 +6,7 @@ use strict;
 use utf8;
 use Carp;
 
-our $VERSION = 'v1.0.10';
+our $VERSION = 'v2.0.0';
 
 use Data::Alias 0.08;
 

@@ -7,7 +7,7 @@ IO::Stream - ease non-blocking I/O streams based on EV
 
 # VERSION
 
-This document describes IO::Stream version v1.0.10
+This document describes IO::Stream version v2.0.0
 
 # SYNOPSIS
 
