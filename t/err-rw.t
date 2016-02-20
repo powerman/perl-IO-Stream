@@ -6,21 +6,21 @@ use t::share;
 @CheckPoint = (
     {
 	win32 => [
-    	    [ 'reader', 0, 'Bad file descriptor'    ], 'reader: Bad file descriptor',
+	    [ 'reader', 0, EBADF		    ], 'reader: Bad file descriptor',
 	    {
 		unknown => [
-	    	    [ 'writer', 0, 'Unknown error'          ], 'writer: Unknown error',
+		    [ 'writer', 0, 'Unknown error'  ], 'writer: Unknown error',
 		],
 		aborted => [
-	    	    [ 'writer', 0, 'An established connection was aborted by the software in your host machine.'          ], 'writer: established connection was aborted',
+		    [ 'writer', 0, ECONNABORTED     ], 'writer: established connection was aborted',
 		],
 	    },
-    	    [ 'writer', 0, 'Bad file descriptor'    ], 'writer: Bad file descriptor',
+	    [ 'writer', 0, EBADF		    ], 'writer: Bad file descriptor',
 	],
 	other => [
-    	    [ 'writer', 0, 'Broken pipe'            ], 'writer: Broken pipe',
-    	    [ 'writer', 0, 'Bad file descriptor'    ], 'writer: Bad file descriptor',
-    	    [ 'reader', 0, 'Bad file descriptor'    ], 'reader: Bad file descriptor',
+	    [ 'writer', 0, EPIPE		    ], 'writer: Broken pipe',
+	    [ 'writer', 0, EBADF		    ], 'writer: Bad file descriptor',
+	    [ 'reader', 0, EBADF		    ], 'reader: Bad file descriptor',
 	],
     },
 );
@@ -31,16 +31,16 @@ nonblocking($server);
 nonblocking($client);
 
 my $r = IO::Stream->new({
-    fh          => $server,
-    cb          => \&reader,
-    wait_for    => 0,
+    fh		=> $server,
+    cb		=> \&reader,
+    wait_for	=> 0,
 });
 close $server;
 
 my $w = IO::Stream->new({
-    fh          => $client,
-    cb          => \&writer,
-    wait_for    => 0,
+    fh		=> $client,
+    cb		=> \&writer,
+    wait_for	=> 0,
 });
 $w->write('x' x 204800);
 EV::loop;
@@ -49,14 +49,14 @@ EV::loop;
 
 sub writer {
     my ($io, $e, $err) = @_;
-    checkpoint($e, $err);
+    checkpoint($e, 0+$err);
     $io->close();
     EV::unloop;
 }
 
 sub reader {
     my ($io, $e, $err) = @_;
-    checkpoint($e, $err);
+    checkpoint($e, 0+$err);
     $io->close();
     EV::unloop;
 }

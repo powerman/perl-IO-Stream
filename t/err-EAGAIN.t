@@ -3,15 +3,20 @@ use warnings;
 use strict;
 use t::share;
 
-if (WIN32) {
-    plan skip_all => 'OS unsupported';
-}
-
 @CheckPoint = (
     [ 'timeout_write'   ], 'force EAGAIN in syswrite',
-    [ 'timeout_read'    ], 'force EAGAIN in sysread',
+    {
+        win32 => [
+            [ 'writer', 0 ], '',
+            [ 'timeout_read'    ], 'force EAGAIN in sysread',
+            [ 'reader', 0 ], '',
+        ],
+        other => [
+            [ 'timeout_read'    ], 'force EAGAIN in sysread',
+        ],
+    },
 );
-plan tests => @CheckPoint/2;
+plan tests => WIN32 ? 4 : 2;
 
 socketpair my $server, my $client, AF_UNIX, SOCK_STREAM, PF_UNSPEC or die "socketpair: $!";
 nonblocking($server);

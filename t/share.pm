@@ -1,14 +1,14 @@
+use open qw( :std :utf8 );
 use Test::More;
 use Test::Exception;
 
 use Carp;
 use Scalar::Util qw( weaken );
 use File::Temp qw( tempfile );
-use Errno qw( EAGAIN );
+use Errno qw( EAGAIN EBADF EPIPE ECONNABORTED );
 use Socket;
 use Fcntl;
-use POSIX qw(locale_h);
-setlocale(LC_ALL, 'C');
+use POSIX qw(locale_h); BEGIN { setlocale(LC_ALL,'en_US.UTF-8') } # avoid UTF-8 in $!
 
 use EV;
 use IO::Stream;
