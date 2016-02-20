@@ -50,7 +50,7 @@ sub PREPARE {
     }
     else {
         $self->{_state} = RESOLVING;
-        resolve($host, $self, sub {
+        _resolve($host, $self, sub {
             my ($self, $ip) = @_;
             $self->{_state} = CONNECTING;
             # TODO try other ip on failed connect?
@@ -73,7 +73,7 @@ sub WRITE {
     return;
 }
 
-sub resolve {
+sub _resolve {
     my ($host, $plugin, $cb) = @_;
     if ($host =~ /\A\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}\z/xms) {
         $cb->($plugin, $host);

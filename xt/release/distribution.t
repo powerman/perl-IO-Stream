@@ -7,6 +7,6 @@ Test::Distribution->import(
        also_private    => [
            qr/^(?:[A-Z_]+)$/,
        ],
-       pod_from        => 'IO::Stream',
+       pod_from        => 'lib/IO/Stream.pm',
    }
 );
