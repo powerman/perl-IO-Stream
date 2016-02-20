@@ -1,19 +1,18 @@
 package IO::Stream::EV;
-
+use 5.010001;
 use warnings;
 use strict;
+use utf8;
+use Carp;
 
-use version; our $VERSION = qv('1.0.10');
+our $VERSION = 'v1.0.10';
 
 use IO::Stream::const;
 
-# update DEPENDENCIES in POD & Makefile.PL & README
 use Scalar::Util qw( weaken );
 use Socket qw( inet_aton sockaddr_in );
 use EV;
-BEGIN { if (!WIN32) { eval 'use EV::ADNS; 1' or die $@ }} ## no critic (ProhibitStringyEval RequireCarping)
-
-
+BEGIN { if (!WIN32) { eval { require EV::ADNS } or die $@ }} ## no critic (RequireCarping)
 
 # States:
 use constant RESOLVING      => 1;

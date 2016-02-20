@@ -6,7 +6,7 @@ use warnings;
 use strict;
 use t::share;
 BEGIN {
-    eval 'use Data::Alias 0.08; 1;' or plan skip_all => 'Data::Alias required';
+    eval { require Data::Alias; Data::Alias->VERSION('0.08') } or plan skip_all => 'Data::Alias required';
 }
 
 my $SIZE = 204800;

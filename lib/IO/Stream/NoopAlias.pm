@@ -1,9 +1,12 @@
 # No-op plugin example based on Data::Alias.
 package IO::Stream::NoopAlias;
+use 5.010001;
 use warnings;
 use strict;
+use utf8;
+use Carp;
 
-use version; our $VERSION = qv('1.0.10');
+our $VERSION = 'v1.0.10';
 
 use Data::Alias 0.08;
 

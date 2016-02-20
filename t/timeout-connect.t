@@ -8,10 +8,6 @@ BEGIN {
 }
 use t::share;
 
-if (CFG_ONLINE ne 'y') {
-    plan skip_all => 'online tests disabled';
-}
-
 
 @CheckPoint = (
     [ 'client',     RESOLVED, undef        ], 'client: RESOLVED',

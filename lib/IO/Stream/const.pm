@@ -1,18 +1,19 @@
 package IO::Stream::const;
-
+use 5.010001;
 use warnings;
 use strict;
+use utf8;
+use Carp;
 
-use version; our $VERSION = qv('1.0.10');
+our $VERSION = 'v1.0.10';
 
-# update DEPENDENCIES in POD & Makefile.PL & README
 use Scalar::Util qw( dualvar );
 use Errno qw( EAGAIN );
 use Fcntl ();
 use Socket ();
 
 
-use constant WIN32 => 0;
+use constant WIN32 => $^O =~ /Win32/msi ? 1 : 0;
 use constant BUFSIZE => 8192;
 
 # Events:
