@@ -111,13 +111,13 @@ IO::Stream object - you can even do sysread()/syswrite() (but there no
 reasons for you to do this anymore).
 
 **IMPORTANT!** When you want to close this fh,
-**you MUST use $stream->close() method for closing fh** instead of
+**you MUST use $io->close() method for closing fh** instead of
 doing close($fh). This is because IO::Stream doesn't require from you to
-keep object returned by new(), and without call to $stream->close()
+keep object returned by new(), and without call to $io->close()
 IO::Stream object will continue to exists and may receive/generate some
 events, which is not what you expect after closing fh. Also, if you keep
 object returned by IO::Stream->new() somewhere in your variables, you
-should either undef all such variables after you called $stream->close(),
+should either undef all such variables after you called $io->close(),
 or you should use Scalar::Util::weaken() on these variables after storing
 IO::Stream object. (The same is applicable for all plugin objects too.)
 
@@ -161,7 +161,7 @@ IO::Stream object. (The same is applicable for all plugin objects too.)
 - SENT
 
     Generated when all data from {out\_buf} was written. It's usual and safe to
-    call $stream->close() on SENT event.
+    call $io->close() on SENT event.
 
 ## TIMEOUTS
 
@@ -228,57 +228,63 @@ When some event arise which you're waited for, your callback will be
 called with 3 parameters: IO::Stream object, event mask, and error (if any):
 
     sub callback {
-        my ($stream, $e, $err) = @_;
+        my ($io, $e, $err) = @_;
     }
 
 # METHODS
 
-- new(\\%opt)
+## new
 
-    Create and return IO::Stream object. You may not keep returned object - you
-    will get it in your callback (in first parameter) when some interesting
-    for your event happens, and will exists until to call method close().
-    See [OVERVIEW](https://metacpan.org/pod/OVERVIEW) for more details.
+    IO::Stream->new( \%opt );
 
-    Fields of %opt become fields of created IO::Stream object. There only few
-    fields required, but you can set any other fields too, and can also set
-    your custom fields (with names starting from upper-case letter).
+Create and return IO::Stream object. You may not keep returned object - you
+will get it in your callback (in first parameter) when some interesting
+for your event happens, and will exists until to call method close().
+See [OVERVIEW](https://metacpan.org/pod/OVERVIEW) for more details.
 
-    Only required fields in %opt are {cb} and either {fh} or {host}+{port}.
-    The {wait\_for} field also highly recommended to set when creating object.
+Fields of %opt become fields of created IO::Stream object. There only few
+fields required, but you can set any other fields too, and can also set
+your custom fields (with names starting from upper-case letter).
 
-    If {out\_buf} will be set, then new() will automatically call write() after
-    creating object.
+Only required fields in %opt are {cb} and either {fh} or {host}+{port}.
+The {wait\_for} field also highly recommended to set when creating object.
 
-        IO::Stream->new({
-            fh          => \*STDIN,
-            cb          => \&console,
-            wait_for    => IN,
-        });
+If {out\_buf} will be set, then new() will automatically call write() after
+creating object.
 
-- write()
-- write($data)
+    IO::Stream->new({
+        fh          => \*STDIN,
+        cb          => \&console,
+        wait_for    => IN,
+    });
 
-    Method write() **MUST** be called after any modifications of {out\_buf} field,
-    to ensure data in {out\_buf} will be written to {fh} as soon as it will be
-    possible.
+## write
 
-    If {fh} available for writing when calling write(), then it will write
-    (may be partially) {out\_buf} and may immediately call your callback function
-    delivering OUT|SENT events there. So, if you call write() from that callback
-    (as it usually happens), keep in mind it may be called again while executing
-    write(), and object state may significantly change (it even may be close()'d)
-    after it return from write() into your callback.
+    $io->write();
+    $io->write($data);
 
-    The write($data) is just a shortcut for:
+Method write() **MUST** be called after any modifications of {out\_buf} field,
+to ensure data in {out\_buf} will be written to {fh} as soon as it will be
+possible.
 
-        $stream->{out_buf} .= $data;
-        $stream->write();
+If {fh} available for writing when calling write(), then it will write
+(may be partially) {out\_buf} and may immediately call your callback function
+delivering OUT|SENT events there. So, if you call write() from that callback
+(as it usually happens), keep in mind it may be called again while executing
+write(), and object state may significantly change (it even may be close()'d)
+after it return from write() into your callback.
 
-- close()
+The write($data) is just a shortcut for:
 
-    Method close() will close {fh} and destroy IO::Stream object.
-    See [OVERVIEW](https://metacpan.org/pod/OVERVIEW) for more details.
+    $io->{out_buf} .= $data;
+    $io->write();
+
+## close
+
+    $io->close()
+
+Method close() will close {fh} and destroy IO::Stream object.
+See [OVERVIEW](https://metacpan.org/pod/OVERVIEW) for more details.
 
 # PUBLIC FIELDS
 
@@ -302,7 +308,7 @@ Some field modified on events.
     Bitmask of events interesting for user. Can be changed at any time.
     For example:
 
-        $stream->{wait_for} = RESOLVED|CONNECTED|IN|EOF|OUT|SENT;
+        $io->{wait_for} = RESOLVED|CONNECTED|IN|EOF|OUT|SENT;
 
     When some data will be read from {fh}, {wait\_for} must contain IN and/or EOF,
     or error EREQINEOF will be generated. So, it's better to always have
@@ -389,7 +395,7 @@ Some field modified on events.
     This field is somewhat special, because when you call new() you should
     set plugin to ARRAY ref, but in IO::Stream object {plugin} is HASH ref:
 
-        my $stream = IO::Stream->new({
+        my $io = IO::Stream->new({
             host        => 'www.google.com',
             port        => 443,
             cb          => \&google,
@@ -410,7 +416,7 @@ Some field modified on events.
         });
 
         # access the "proxy" plugin:
-        $stream->{plugin}{proxy};
+        $io->{plugin}{proxy};
 
     This is because when calling new() it's important to keep plugins in order,
     but later it's easier to access them using names.
@@ -439,9 +445,9 @@ to user's callback in last parameter.
 
     You can't have more than one IO::Stream object for same fh.
 
-    IO::Stream keep all objects created by new() until $stream->close() will be
+    IO::Stream keep all objects created by new() until $io->close() will be
     called. Probably you've closed fh in some way without calling
-    $stream->close(), then new fh was created with same file descriptor
+    $io->close(), then new fh was created with same file descriptor
     number, and you've tried to create IO::Stream object using new fh.
 
 # SEE ALSO
