@@ -27,8 +27,6 @@ use t::share;
     [ 'server',     16384,                 ], 'server: read 16384 bytes',
     [ 'server',     16384,                 ], 'server: read 16384 bytes',
     [ 'server',     16384,                 ], 'server: read 16384 bytes',
-    [ 'server',     16384,                 ], 'server: read 16384 bytes',
-    [ 'server',     16384,                 ], 'server: read 16384 bytes',
 );
 plan tests => checkpoint_count();
 
@@ -39,7 +37,7 @@ my %srv_t;
 my $srv_w = EV::io($srv_sock, EV::READ, sub {
     accept my $sock, $srv_sock or die "accept: $!";
     nonblocking($sock);
-    my $i = 10;
+    my $i = 8;
     $srv_t{$sock} = EV::timer 0, 0.1, sub { server($sock, \$i) };
 });
 
