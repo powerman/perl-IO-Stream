@@ -1,5 +1,6 @@
 use Test::More;
 use Test::Exception;
+use Test::Differences;
 
 use Carp;
 use Scalar::Util qw( weaken );
@@ -67,7 +68,7 @@ sub checkpoint {
     if (ref $CheckPoint[0] eq 'HASH') {
 	croak("No alternative to match: $func @_");
     }
-    is_deeply([$func, @_], shift @CheckPoint, shift @CheckPoint);
+    eq_or_diff([$func, @_], shift @CheckPoint, shift @CheckPoint);
     return;
 }
 

@@ -12,6 +12,7 @@ on configure => sub {
 
 on test => sub {
     requires 'File::Temp';
+    requires 'Test::Differences';
     requires 'Test::Exception';
     requires 'Test::More';
 };
