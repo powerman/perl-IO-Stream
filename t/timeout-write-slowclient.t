@@ -34,7 +34,7 @@ plan tests => checkpoint_count();
 
 
 
-my $srv_sock = tcp_server('127.0.0.1', 4444);
+my $srv_sock = tcp_server('127.0.0.1', 0);
 my %srv_t;
 my $srv_w = EV::io($srv_sock, EV::READ, sub {
     accept my $sock, $srv_sock or die "accept: $!";
@@ -45,7 +45,7 @@ my $srv_w = EV::io($srv_sock, EV::READ, sub {
 
 IO::Stream->new({
     host        => '127.0.0.1',
-    port        => 4444,
+    port        => sockport($srv_sock),
     cb          => \&client,
     wait_for    => RESOLVED|CONNECTED|OUT|SENT,
     out_buf     => ('x' x 2048000),

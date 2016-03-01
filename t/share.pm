@@ -100,6 +100,12 @@ sub nonblocking {
     return;
 }
 
+sub sockport {
+    my ($sock) = @_;
+    my ($port) = sockaddr_in(getsockname $sock);
+    return $port;
+}
+
 sub tcp_server {
     my ($host, $port) = @_;
     socket my $sock, AF_INET, SOCK_STREAM, 0        or croak qq{socket: $!};

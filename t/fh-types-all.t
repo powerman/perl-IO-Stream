@@ -31,8 +31,8 @@ nonblocking($server);
 nonblocking($client);
 stream2('sockpair', $server, $client);
 
-my $lst_sock = tcp_server('127.0.0.1', 1234);
-my $cln_sock = tcp_client('127.0.0.1', 1234);
+my $lst_sock = tcp_server('127.0.0.1', 0);
+my $cln_sock = tcp_client('127.0.0.1', sockport($lst_sock));
 my $srv_sock;
 use Errno qw( EBADF );
 until (accept $srv_sock, $lst_sock) {

@@ -21,7 +21,7 @@ use IO::Stream::Noop;
 plan tests => 2 + @CheckPoint/2;
 
 
-my $srv_sock = tcp_server('127.0.0.1', 4444);
+my $srv_sock = tcp_server('127.0.0.1', 0);
 my $srv_w = EV::io($srv_sock, EV::READ, sub {
     if (accept my $sock, $srv_sock) {
         IO::Stream->new({
@@ -38,7 +38,7 @@ my $srv_w = EV::io($srv_sock, EV::READ, sub {
 
 my $io = IO::Stream->new({
     host        => '127.0.0.1',
-    port        => 4444,
+    port        => sockport($srv_sock),
     cb          => \&client,
     wait_for    => SENT,
     in_buf_limit=> 1024,

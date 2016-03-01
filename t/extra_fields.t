@@ -17,7 +17,7 @@ plan tests =>
   ;
 
 
-my $srv_sock = tcp_server('0.0.0.0', 1234);
+my $srv_sock = tcp_server('127.0.0.1', 0);
 my $srv_w = EV::io($srv_sock, EV::READ, sub {
     if (my $paddr = accept my $sock, $srv_sock) {
         my ($port,$iaddr) = sockaddr_in($paddr);
@@ -38,7 +38,7 @@ my $srv_w = EV::io($srv_sock, EV::READ, sub {
 });
 
 my $io = IO::Stream->new({
-    fh          => tcp_client('127.0.0.1', 1234),
+    fh          => tcp_client('127.0.0.1', sockport($srv_sock)),
     cb          => 'Client',
     method      => 'IO_client',
     wait_for    => SENT,

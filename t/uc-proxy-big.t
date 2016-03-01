@@ -44,10 +44,10 @@ plan tests =>
   + checkpoint_count();
 
 
-my $srv_sock = tcp_server('0.0.0.0', 20080);
+my $srv_sock = tcp_server('127.0.0.1', 0);
 my $srv_w = EV::io($srv_sock, EV::READ, \&listener_server);
 
-my $prx_sock = tcp_server('0.0.0.0', 13128);
+my $prx_sock = tcp_server('127.0.0.1', 0);
 my $prx_w = EV::io($prx_sock, EV::READ, \&listener_proxy);
 
 sub new_client {
@@ -61,7 +61,7 @@ sub new_client {
         in_buf_limit=> 0,
     });
 }
-new_client(20080, \&client);
+new_client(sockport($srv_sock), \&client);
 
 EV::loop;
 
@@ -102,7 +102,7 @@ sub listener_proxy {
         checkpoint(ACCEPTED);
         IO::Stream->new({
             host        => '127.0.0.1',
-            port        => 20080,
+            port        => sockport($srv_sock),
             cb          => \&proxy2server,
             wait_for    => CONNECTED|IN|EOF,
             Client      => undef,
@@ -169,7 +169,7 @@ sub client {
     checkpoint($io->{in_buf});
     ok($io->{is_eof}, '  {is_eof} set');
     $io->close();
-    new_client(13128, \&client2);
+    new_client(sockport($prx_sock), \&client2);
 }
 
 sub client2 {
