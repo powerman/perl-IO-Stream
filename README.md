@@ -96,10 +96,10 @@ compatibility.
 # OVERVIEW
 
 You can create IO::Stream object using any "stream" fh
-(file, tty, UNIX socket, TCP socket, pipe, FIFO).
-Or, if you need tcp socket, you can create IO::Stream object using host+port
+(file, TTY, UNIX socket, TCP socket, pipe, FIFO).
+Or, if you need TCP socket, you can create IO::Stream object using host+port
 instead of fh (in this case IO::Stream will do non-blocking host resolving,
-create tcp socket and do non-blocking connect).
+create TCP socket and do non-blocking connect).
 
 After you created IO::Stream object, it will handle read/write on this fh,
 and deliver only high-level events you asked for into your callback, where
@@ -174,7 +174,7 @@ Current version doesn't allow you to change these timeouts.
 
 ## SERVER
 
-If you need to run tcp/unix-server socket, then you should handle that socket
+If you need to run TCP/UNIX-server socket, then you should handle that socket
 manually. But you can create IO::Stream object for accept()'ed socket:
 
     my ($host, $port) = ('0.0.0.0', 1234);
@@ -326,7 +326,7 @@ Some field modified on events.
 - port \*RO\*
 
     If user doesn't provide {fh} to new(), he should provide {host} and {port}
-    instead. This way new() will create new tcp socket in {fh} and resolve
+    instead. This way new() will create new TCP socket in {fh} and resolve
     {host} and connect this {fh} to resolved {ip} and {port}. Both resolving
     and connecting happens in non-blocking way, and will result in delivering
     RESOLVED and CONNECTED events into user callback (if user {wait\_for} these
