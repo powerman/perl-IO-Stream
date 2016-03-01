@@ -1,4 +1,3 @@
-use open qw( :std :utf8 );
 use Test::More;
 use Test::Exception;
 
