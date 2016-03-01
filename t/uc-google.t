@@ -3,6 +3,10 @@ use warnings;
 use strict;
 use t::share;
 
+plan skip_all => 'unstable on CPAN Testers (connect to google)'
+    if !$ENV{RELEASE_TESTING}
+    && ($ENV{AUTOMATED_TESTING} || $ENV{PERL_CPAN_REPORTER_CONFIG});
+
 
 IO::Stream->new({
 #    fh          => tcp_client('www.google.com', 80),
