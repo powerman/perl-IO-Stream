@@ -3,6 +3,13 @@ use warnings;
 use strict;
 use t::share;
 
+use Config;
+plan skip_all => 'unstable on CPAN Testers (libev crashes)'
+    if !$ENV{RELEASE_TESTING}
+    && ($ENV{AUTOMATED_TESTING} || $ENV{PERL_CPAN_REPORTER_CONFIG})
+    && $Config{osname} eq 'MSWin32' && $Config{osvers} eq '6.3';
+
+
 @CheckPoint = (
     {
 	win32 => [
