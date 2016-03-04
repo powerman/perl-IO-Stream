@@ -61,23 +61,23 @@
    "provides" : {
       "IO::Stream" : {
          "file" : "lib/IO/Stream.pm",
-         "version" : "v2.0.1"
+         "version" : "v2.0.2"
       },
       "IO::Stream::EV" : {
          "file" : "lib/IO/Stream/EV.pm",
-         "version" : "v2.0.1"
+         "version" : "v2.0.2"
       },
       "IO::Stream::Noop" : {
          "file" : "lib/IO/Stream/Noop.pm",
-         "version" : "v2.0.1"
+         "version" : "v2.0.2"
       },
       "IO::Stream::NoopAlias" : {
          "file" : "lib/IO/Stream/NoopAlias.pm",
-         "version" : "v2.0.1"
+         "version" : "v2.0.2"
       },
       "IO::Stream::const" : {
          "file" : "lib/IO/Stream/const.pm",
-         "version" : "v2.0.1"
+         "version" : "v2.0.2"
       }
    },
    "release_status" : "stable",
@@ -92,6 +92,6 @@
          "web" : "https://github.com/powerman/perl-IO-Stream"
       }
    },
-   "version" : "v2.0.1"
+   "version" : "v2.0.2"
 }
 

@@ -2,6 +2,9 @@ Revision history for IO-Stream
 
 {{$NEXT}}
 
+v2.0.2  2016-03-05 01:39:23 EET
+	- Fixed tests for portability.
+
 v2.0.1  2016-03-01 04:07:24 EET
 	- Reformat doc.
 	- Fixed tests for portability.
