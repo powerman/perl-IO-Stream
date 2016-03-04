@@ -38,7 +38,8 @@ my $srv_w = EV::io($srv_sock, EV::READ, sub {
 });
 
 my $io = IO::Stream->new({
-    fh          => tcp_client('127.0.0.1', sockport($srv_sock)),
+    host        => '127.0.0.1',
+    port        => sockport($srv_sock),
     cb          => 'Client',
     method      => 'IO_client',
     wait_for    => SENT,
