@@ -7,7 +7,7 @@ IO::Stream - ease non-blocking I/O streams based on EV
 
 # VERSION
 
-This document describes IO::Stream version v2.0.2
+This document describes IO::Stream version v2.0.3
 
 # SYNOPSIS
 
@@ -496,11 +496,11 @@ Feel free to fork the repository and submit pull requests.
 
 # AUTHOR
 
-Alex Efros &lt;powerman@cpan.org>
+Alex Efros <powerman@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2008- by Alex Efros &lt;powerman@cpan.org>.
+This software is Copyright (c) 2008- by Alex Efros <powerman@cpan.org>.
 
 This is free software, licensed under:
 
